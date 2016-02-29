@@ -19,7 +19,22 @@ namespace( :mt ) do
     end
 
     def spec_folder
-      Dir.mkdir( "#{@wd}/specs" ) 
+      Dir.mkdir( "#{@wd}/specs" )
+    end
+
+    def models(models)
+      for model in models
+        # touch("#{wd}/specs/#{model}.rb")
+        open("#{@wd}/#{model}.rb", "a") do |f|
+          f << class_bplate( model )
+        end
+      end
+      @files = Dir.entries( @wd ) # once we create the models we need to update our object with that info
+    end
+
+    def class_bplate( model )
+      name = model.slice(0,1).capitalize + model.slice(1..-1)
+      return "class #{name}\n\n\nend"
     end
 
     def minitest_bplate( model )
@@ -31,7 +46,9 @@ namespace( :mt ) do
 
   test = MakeMyTest.new( '.rb', getwd(), Dir.entries( getwd() ) )
 
-  task( :setup ) do
+  task( :setup ) do |t, args|
+    test.models(args.extras)
+
     test.spec_folder()
 
     test.manipulate do |file, type, wd|
