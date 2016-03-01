@@ -8,13 +8,17 @@ N.B. If you want to use arguments with rake tasks whilst using the oh-my-zsh ter
 
 ###setup
 
-* Creates a spec folder, and then creates the required spec files inside of that folder, based off of the models (or files currently sitting in the project root)
-* Optionally takes a number of arguments that will be used to create your models
+* Creates a spec folder, and then creates the required spec files inside of that folder, based off of the models inside your models folder
+* Optionally takes a number of arguments that will be used to create your models first, then create the tests
   * Passed in like rake mt:setup[bear,fish,river]
 
-###delete_tests
+###delete_specs
 
 * Deletes your specs/ folder (just runs rm -rf specs/ inside the task)
+
+###delete_models
+
+* Deletes your models/ folder (just runs rm -rf models/ inside the task)
 
 ###run
 

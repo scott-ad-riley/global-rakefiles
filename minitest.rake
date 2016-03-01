@@ -24,12 +24,11 @@ namespace( :mt ) do
 
     def models(models)
       for model in models
-        # touch("#{wd}/specs/#{model}.rb")
-        open("#{@wd}/#{model}.rb", "a") do |f|
+        open("#{@wd}/models/#{model}.rb", "a") do |f|
           f << class_bplate( model )
         end
       end
-      @files = Dir.entries( @wd ) # once we create the models we need to update our object with that info
+      @files = Dir.entries( @wd + "/models" ) # once we create the models we need to update our object with that info
     end
 
     def class_bplate( model )
@@ -39,12 +38,13 @@ namespace( :mt ) do
 
     def minitest_bplate( model )
       name = model.slice(0,1).capitalize + model.slice(1..-1)
-      return "require( 'minitest/autorun' )\nrequire( 'minitest/rg' )\nrequire_relative( '../#{model}.rb' )\n\nclass Test#{name} < MiniTest::Test\n\n\nend"
+      return "require( 'minitest/autorun' )\nrequire( 'minitest/rg' )\nrequire_relative( '../models/#{model}.rb' )\n\nclass Test#{name} < MiniTest::Test\n\n\nend"
     end
 
   end
 
-  test = MakeMyTest.new( '.rb', getwd(), Dir.entries( getwd() ) )
+  mkdir("models") unless Dir.exists? "models"
+  test = MakeMyTest.new( '.rb', getwd(), Dir.entries( getwd() + "/models") )
 
   task( :setup ) do |t, args|
     test.models(args.extras)
@@ -73,8 +73,12 @@ namespace( :mt ) do
     end
   end
 
-  task( :delete_tests ) do
+  task( :delete_specs ) do
     system "rm -rf specs/"
+  end
+  
+  task( :delete_models ) do
+    system "rm -rf models/"
   end
 
 end
