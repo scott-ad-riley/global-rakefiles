@@ -1,8 +1,8 @@
 #Rakefiles
 
-All files are split with a namespace, the initial commit contains just 'mt' (Minitest) and it's some utility functions for it. That file is documented below (and as will others as they are added).
+All files are split with a namespace, the initial commit contains a 'mt' (Minitest) namespace and some utility functions for it. That file is documented below (so you can do the same with others if you add them).
 
-N.B. If you want to use arguments with rake tasks whilst using the oh-my-zsh terminal - you need to create an alias for the rake task. See here: https://github.com/robbyrussell/oh-my-zsh/issues/433. In short, it means adding `alias rake='noglob rake` to your .zshrc file.
+N.B. If you want to use arguments with rake tasks whilst using the oh-my-zsh terminal - you need to create an alias for the rake task. See here: https://github.com/robbyrussell/oh-my-zsh/issues/433. In short, it means adding a new line with: `alias rake='noglob rake` to your .zshrc file.
 
 ##namespace: mt
 
@@ -14,7 +14,7 @@ N.B. If you want to use arguments with rake tasks whilst using the oh-my-zsh ter
 
 ###delete_tests
 
-* Deletes your specs/ folder (just runs rm -rf specs/ under inside the task)
+* Deletes your specs/ folder (just runs rm -rf specs/ inside the task)
 
 ###run
 
