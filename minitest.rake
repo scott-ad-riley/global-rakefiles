@@ -19,7 +19,12 @@ namespace( :mt ) do
     end
 
     def spec_folder
-      Dir.mkdir( "#{@wd}/specs" )
+      Dir.mkdir( "#{@wd}/specs" ) unless Dir.exists? 'specs'
+    end
+
+    def model_folder
+      Dir.mkdir( "{@wd}/models" ) unless Dir.exists? 'models'
+      @files = Dir.entries( getwd() + "/models")
     end
 
     def models(models)
@@ -43,10 +48,11 @@ namespace( :mt ) do
 
   end
 
-  mkdir("models") unless Dir.exists? "models"
-  test = MakeMyTest.new( '.rb', getwd(), Dir.entries( getwd() + "/models") )
+  test = MakeMyTest.new( '.rb', getwd(), nil )
 
   task( :setup ) do |t, args|
+    test model_folder()
+
     test.models(args.extras)
 
     test.spec_folder()
