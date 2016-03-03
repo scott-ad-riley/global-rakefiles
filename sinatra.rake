@@ -19,10 +19,6 @@ namespace( :sin ) do
       end
     end
 
-    # def refresh_models
-    #   @models = Dir.entries( "#{@wd}/models")
-    # end
-
     def make_folders
       Dir.mkdir( "#{@wd}/models" ) unless Dir.exists? 'models'
       Dir.mkdir( "#{@wd}/specs" ) unless Dir.exists? 'specs'
@@ -32,9 +28,6 @@ namespace( :sin ) do
 
     def populate_controller
       yield("controller.rb", @wd)
-      # open( "#{@wd}/controller.rb" ) do |f|
-      #   f << controller_bplate()
-      # end
     end
 
     def controller_bplate()
@@ -44,15 +37,6 @@ namespace( :sin ) do
     def model_require(model)
       return "require_relative( 'models/#{model}' )\n"
     end
-
-    # def models(models)
-    #   for model in models
-    #     open("#{@wd}/models/#{model}.rb", "a") do |f|
-    #       f << class_bplate( model )
-    #     end
-    #   end
-    #   @models = Dir.entries( @wd + "/models" ) # once we create the models we need to update our object with that info
-    # end
 
     def class_bplate( model )
       name = model.slice(0,1).capitalize + model.slice(1..-1)
@@ -70,11 +54,6 @@ namespace( :sin ) do
   task( :setup ) do |t, args|
     test = MakeMyTest.new( '.rb', getwd(), args.extras )
     test.make_folders()
-    # test.refresh_models()
-    # test.models(args.extras)
-    # test.models(args.extras) do |file, wd|
-    #   touch()
-    # end
 
     test.manipulate do |model_file, type, wd|
       model = model_file.split(type).first
