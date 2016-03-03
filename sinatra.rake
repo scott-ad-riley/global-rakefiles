@@ -7,8 +7,7 @@ namespace( :sin ) do
     def initialize( type, wd, models )
       @type = type
       @wd = wd
-      @models = (models) ? models : Dir.entries( "#{@wd}/models" ) if Dir.exists? 'models'
-      @models.map{ |file| file.concat(".rb") }
+      @models = (models) ? models.map{ |f| f.concat(".rb") } : Dir.entries( "#{@wd}/models" ) if Dir.exists? 'models'
     end
 
     def manipulate()
