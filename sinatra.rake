@@ -4,10 +4,11 @@ namespace( :sin ) do
 
     attr_reader :type, :dir
 
-    def initialize( type, wd )
+    def initialize( type, wd, models )
       @type = type
       @wd = wd
-      @models = Dir.entries( "#{@wd}/models" ) if Dir.exists? 'models'
+      @models = (models) ? models : Dir.entries( "#{@wd}/models" ) if Dir.exists? 'models'
+      @models.map{ |file| file.concat(".rb") }
     end
 
     def manipulate()
@@ -18,9 +19,9 @@ namespace( :sin ) do
       end
     end
 
-    def refresh_models
-      @models = Dir.entries( "#{@wd}/models")
-    end
+    # def refresh_models
+    #   @models = Dir.entries( "#{@wd}/models")
+    # end
 
     def make_folders
       Dir.mkdir( "#{@wd}/models" ) unless Dir.exists? 'models'
@@ -65,14 +66,19 @@ namespace( :sin ) do
 
   end
 
-  test = MakeMyTest.new( '.rb', getwd() )
 
   task( :setup ) do |t, args|
+    test = MakeMyTest.new( '.rb', getwd(), args.extras )
     test.make_folders()
-    test.refresh_models()
+    # test.refresh_models()
     # test.models(args.extras)
+    # test.models(args.extras) do |file, wd|
+    #   touch()
+    # end
+
     test.manipulate do |model_file, type, wd|
       model = model_file.split(type).first
+      touch( "#{wd}/models/#{model_file}" )
       open( "#{wd}/models/#{model_file}", 'a' ) do |f|
         f << test.class_bplate( model )
       end
